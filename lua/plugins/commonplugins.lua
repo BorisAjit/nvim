@@ -62,18 +62,6 @@ return {
     end,
   },
   { "nvim-treesitter/nvim-treesitter-textobjects" },
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
   {
     "williamboman/mason.nvim",
     config = function()
@@ -88,42 +76,6 @@ return {
       })
     end
   },
-  -- {
-  --   'hrsh7th/nvim-cmp',
-  --   dependencies = {
-  --     'hrsh7th/cmp-nvim-lsp',       -- LSP completion
-  --     'hrsh7th/cmp-buffer',          -- Buffer completion
-  --     'hrsh7th/cmp-path',            -- Path completion
-  --     'hrsh7th/cmp-cmdline',         -- Cmdline completion
-  --     'saadparwaiz1/cmp_luasnip',    -- Snippet completion
-  --     'L3MON4D3/LuaSnip',            -- Snippets
-  --   },
-  --   config = function()
-  --     local cmp = require'cmp'
-  --     cmp.setup({
-  --       snippet = {
-  --         expand = function(args)
-  --           require('luasnip').lsp_expand(args.body)
-  --         end,
-  --       },
-  --       mapping = cmp.mapping.preset.insert({
-  --         ['<C-n>'] = cmp.mapping.select_next_item(),
-  --         ['<C-p>'] = cmp.mapping.select_prev_item(),
-  --         ['<C-e>'] = cmp.mapping.abort(),
-  --         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  --         ['<C-Space>'] = cmp.mapping.complete(),
-  --       }),
-  --       sources = {
-  --         { name = 'nvim_lsp' },
-  --         { name = 'buffer' },
-  --         { name = 'path' },
-  --         { name = 'cmdline' },
-  --         { name = 'luasnip' },
-  --       },
-  --     })
-  --   end
-  -- },
-  -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
