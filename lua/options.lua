@@ -1,5 +1,5 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+--vim.g.loaded_netrw = 1
+--vim.g.loaded_netrwPlugin = 1
 
 -- Set file encoding to UTF-8
 vim.o.encoding = 'utf-8'
@@ -22,6 +22,15 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
+--since mode is displayed in staus line
+vim.opt.showmode = false
+vim.opt.signcolumn = 'yes'
+
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+vim.opt.cursorline = true
+
 -- INFO: to sync the system clipboard
 vim.opt.clipboard = "unnamedplus"
 
@@ -31,19 +40,13 @@ vim.opt.ignorecase = true
 
 vim.opt.termguicolors = true
 
+-- Decrease update time
+vim.opt.updatetime = 250
+
+-- Decrease mapped sequence wait time
+-- Displays which-key popup sooner
+vim.opt.timeoutlen = 300
+
 vim.g.mapleader = " "
-vim.keymap.set('i', 'jk', '<Esc>', {})
 
-vim.opt.encoding="UTF-8"
-
--- Navigate to the next tab
-vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnext<CR>', { noremap = true, silent = true })
-
--- Navigate to the previous tab
-vim.api.nvim_set_keymap('n', '<leader>tp', ':tabprevious<CR>', { noremap = true, silent = true })
-
--- Open a new tab
-vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew<CR>', { noremap = true, silent = true })
-
--- Close the current tab
-vim.api.nvim_set_keymap('n', '<leader>tc', ':tabclose<CR>', { noremap = true, silent = true })
+--vim.opt.virtualedit = 'all'
