@@ -169,5 +169,27 @@ return {
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       }
     end,
-  },}
+  },
+  {
+    "m4xshen/autoclose.nvim",
+    config = function ()
+      require('autoclose').setup({ keys = {
+        ['('] = { escape = true, close = true, pair = '()', disabled_filetypes = {} },
+        ['['] = { escape = true, close = true, pair = '[]', disabled_filetypes = {} },
+        ['{'] = { escape = true, close = true, pair = '{}', disabled_filetypes = {} },
+        ['"'] = { escape = true, close = true, pair = '""', disabled_filetypes = {} },
+        ["'"] = { escape = true, close = true, pair = "''", disabled_filetypes = {} },
+        ['`'] = { escape = true, close = true, pair = '``', disabled_filetypes = {} },
+      },
+      options = {
+        disabled_filetypes = { 'text', 'markdown' },
+        disable_when_touch = false,
+        pair_spaces = true,
+      },
+      })
+    end
+  },
+  { "tpope/vim-surround" },
+  { "psliwka/vim-smoothie" },
+}
 
