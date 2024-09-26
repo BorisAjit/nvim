@@ -189,7 +189,111 @@ return {
       })
     end
   },
+  -- NOTE: for brackets and quotes auto complete 
   { "tpope/vim-surround" },
+  -- NOTE: for smooth scroll
   { "psliwka/vim-smoothie" },
+  -- NOTE: for search search text count
+  {
+    'kevinhwang91/nvim-hlslens',
+    config = function ()
+      require('hlslens').setup({
+        override_lens = function(render, posList, nearest, idx, relIdx)
+          local sfw = vim.v.searchforward == 1
+          local indicator, text, chunks
+          local absRelIdx = math.abs(relIdx)
+          if absRelIdx > 1 then
+            indicator = ('%d%s'):format(absRelIdx, sfw ~= (relIdx > 1) and '▲' or '▼')
+          elseif absRelIdx == 1 then
+            indicator = sfw ~= (relIdx == 1) and '▲' or '▼'
+          else
+            indicator = ''
+          end
+
+          local lnum, col = unpack(posList[idx])
+          if nearest then
+            local cnt = #posList
+            if indicator ~= '' then
+              text = ('[%s %d/%d]'):format(indicator, idx, cnt)
+            else
+              text = ('[%d/%d]'):format(idx, cnt)
+            end
+            chunks = {{' '}, {text, 'HlSearchLensNear'}}
+          else
+            text = ('[%s %d]'):format(indicator, idx)
+            chunks = {{' '}, {text, 'HlSearchLens'}}
+          end
+          render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
+        end
+      })
+
+      local kopts = {noremap = true, silent = true}
+
+      vim.api.nvim_set_keymap('n', 'n',
+      [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+      kopts)
+      vim.api.nvim_set_keymap('n', 'N',
+      [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+      kopts)
+      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+      vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+    end,
+  },
+  -- NOTE: for decorated scrollbar
+  { "lewis6991/satellite.nvim" },
+  {
+    -- NOTE: for hover info
+    "lewis6991/hover.nvim",
+    config = function()
+      require("hover").setup {
+        init = function()
+          -- Require providers
+          require("hover.providers.lsp")
+          require('hover.providers.gh')
+          require('hover.providers.gh_user')
+          -- require('hover.providers.jira')
+          -- require('hover.providers.dap')
+          -- require('hover.providers.fold_preview')
+          -- require('hover.providers.diagnostic')
+          -- require('hover.providers.man')
+          -- require('hover.providers.dictionary')
+        end,
+        preview_opts = {
+          border = 'single'
+        },
+        -- Whether the contents of a currently open hover window should be moved
+        -- to a :h preview-window when pressing the hover keymap.
+        preview_window = false,
+        title = true,
+        mouse_providers = {
+          'LSP'
+        },
+        mouse_delay = 1000
+      }
+
+      -- Setup keymaps
+      vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
+      vim.keymap.set("n", "gK", require("hover").hover_select, {desc = "hover.nvim (select)"})
+      vim.keymap.set("n", "<C-p>", function() require("hover").hover_switch("previous",{}) end, {desc = "hover.nvim (previous source)"})
+      vim.keymap.set("n", "<C-n>", function() require("hover").hover_switch("next",{}) end, {desc = "hover.nvim (next source)"})
+
+      -- Mouse support
+      vim.keymap.set('n', '<MouseMove>', require('hover').hover_mouse, { desc = "hover.nvim (mouse)" })
+      vim.o.mousemoveevent = true
+    end
+  },
+  -- NOTE: for terminal
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = true,
+    opts = {
+      open_mapping = [[<C-\>]]
+    }
+  },
 }
 
