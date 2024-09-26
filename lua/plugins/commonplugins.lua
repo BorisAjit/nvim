@@ -8,74 +8,7 @@ return {
     end,
     opts = {},
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
-        sync_install = false,
-        auto_install = true,
-        highlight = {
-          enable = true,
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<leader>si",
-            node_incremental = "<leader>si",
-            scope_incremental = "<leader>sc",
-            node_decremental = "<leader>sd",
-          },
-        },
-        textobjects = {
-          select = {
-            enable = true,
-
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
-
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-            },
-            selection_modes = {
-              ['@parameter.outer'] = 'v', -- charwise
-              ['@function.outer'] = 'V', -- linewise
-              ['@class.outer'] = '<c-v>', -- blockwise
-            },
-            -- If you set this to `true` (default is `false`) then any textobject is
-            -- extended to include preceding or succeeding whitespace. Succeeding
-            -- whitespace has priority in order to act similarly to eg the built-in
-            -- `ap`.
-            --
-            -- Can also be a function which gets passed a table with the keys
-            -- * query_string: eg '@function.inner'
-            -- * selection_mode: eg 'v'
-            -- and should return true or false
-            include_surrounding_whitespace = true,
-          },
-        },
-      }
-    end,
-  },
   { "nvim-treesitter/nvim-treesitter-textobjects" },
-  {
-    "williamboman/mason.nvim",
-    config = function()
-      require'mason'.setup({
-        ui = {
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-          }
-        }
-      })
-    end
-  },
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
@@ -88,14 +21,6 @@ return {
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
-
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
@@ -166,14 +91,15 @@ return {
         { '<leader>s', group = '[S]earch/[S]elect' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]ab/[T]oggle' },
+        { '<leader>g', group = '[G]it' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       }
     end,
   },
   {
     "m4xshen/autoclose.nvim",
-    config = function ()
-      require('autoclose').setup({ keys = {
+    opts = {
+      keys = {
         ['('] = { escape = true, close = true, pair = '()', disabled_filetypes = {} },
         ['['] = { escape = true, close = true, pair = '[]', disabled_filetypes = {} },
         ['{'] = { escape = true, close = true, pair = '{}', disabled_filetypes = {} },
@@ -186,8 +112,7 @@ return {
         disable_when_touch = false,
         pair_spaces = true,
       },
-      })
-    end
+    },
   },
   -- NOTE: for brackets and quotes auto complete 
   { "tpope/vim-surround" },
