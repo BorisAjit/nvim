@@ -217,8 +217,14 @@ return {
     version = "*",
     config = true,
     opts = {
-      open_mapping = [[<C-\>]]
-    }
+      open_mapping = [[<C-\>]],
+      terminal_mappings = true,
+    },
+    keys = {
+      { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+      { "<C-n>", function() require("toggleterm.terminal").Terminal:new():toggle() end, mode= {"t","n"}, desc = "New terminal instance", noremap = true, silent = true},
+      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "[t]erminal [f]loating", noremap = true, silent = true },
+    },
   },
 }
 
